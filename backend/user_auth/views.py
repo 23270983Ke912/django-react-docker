@@ -1,73 +1,83 @@
 from rest_framework.views import APIView
+from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
-from .serializers import UserSerializer
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from . import serializers
 from .models import User
 import jwt, datetime
+from rest_framework import status
 from django.conf import settings
+from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
 
 # Create your views here.
-class RegisterView(APIView):
-    def post(self, request):
-        serializer = UserSerializer(data=request.data)
+
+    
+User = get_user_model()
+
+class UserRegisterationAPIView(GenericAPIView):
+    """
+    An endpoint for the client to create a new User.
+    """
+
+    permission_classes = (AllowAny,)
+    serializer_class = serializers.UserRegisterationSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
+        user = serializer.save()
+        token = RefreshToken.for_user(user)
+        data = serializer.data
+        data["tokens"] = {"refresh": str(token), "access": str(token.access_token)}
+        return Response(data, status=status.HTTP_201_CREATED)
+    
+class UserLoginAPIView(GenericAPIView):
+    """
+    An endpoint to authenticate existing users using their email and password.
+    """
 
+    permission_classes = (AllowAny,)
+    serializer_class = serializers.UserLoginSerializer
 
-class LoginView(APIView):
-    def post(self, request):
-        email = request.data['email']
-        password = request.data['password']
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data
+        serializer = serializers.CustomUserSerializer(user)
+        token = RefreshToken.for_user(user)
+        data = serializer.data
+        data["tokens"] = {"refresh": str(token), "access": str(token.access_token)}
+        return Response(data, status=status.HTTP_200_OK)
 
-        user = User.objects.filter(email=email).first()
+class UserLogoutAPIView(GenericAPIView):
+    """
+    An endpoint to logout users.
+    """
 
-        if user is None:
-            raise AuthenticationFailed('User not found!')
+    permission_classes = (IsAuthenticated,)
 
-        if not user.check_password(password):
-            raise AuthenticationFailed('Incorrect password!')
-
-        payload = {
-            'id': user.id,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
-            'iat': datetime.datetime.utcnow()
-        }
-        secret_key = settings.SECRET_KEY
-        token = jwt.encode(payload, secret_key, algorithm='HS256')
-
-        response = Response()
-
-        response.set_cookie(key='jwt', value=token, httponly=True)
-        response.data = {
-            'jwt': token
-        }
-        return response
-
-
-class UserView(APIView):
-
-    def get(self, request):
-        token = request.COOKIES.get('jwt')
-
-        if not token:
-            raise AuthenticationFailed('Unauthenticated!')
-
+    def post(self, request, *args, **kwargs):
+        print(type(request))
         try:
-            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated!')
+            refresh_token = request.data["refresh"]
+            refresh_token = request.data["refresh"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response(status=status.HTTP_205_RESET_CONTENT)
+        except Exception as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        user = User.objects.filter(id=payload['id']).first()
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
+class UserAPIView(RetrieveUpdateAPIView):
+    """
+    Get, Update user information
+    """
 
+    permission_classes = (IsAuthenticated,)
+    serializer_class = serializers.CustomUserSerializer
 
-class LogoutView(APIView):
-    def post(self, request):
-        response = Response()
-        response.delete_cookie('jwt')
-        response.data = {
-            'message': 'success'
-        }
-        return response
+    def get_object(self):
+        return self.request.user
