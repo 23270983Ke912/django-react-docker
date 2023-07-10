@@ -21,19 +21,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - "5050:80"
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - '3000:3000'
-    volumes:
-      - ./frontend:/app/frontend
-    depends_on:
-      - backend
-   
-
+      
   backend: 
     build: 
       context: ./backend
@@ -48,3 +36,17 @@ services:
       - ./backend:/app/backend
     depends_on:
       - db
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend:/app/frontend
+    depends_on:
+      - backend
+   
+
+ 
