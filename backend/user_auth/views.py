@@ -4,7 +4,7 @@ from rest_framework.exceptions import AuthenticationFailed
 from .serializers import UserSerializer
 from .models import User
 import jwt, datetime
-
+from django.conf import settings
 
 # Create your views here.
 class RegisterView(APIView):
@@ -33,8 +33,8 @@ class LoginView(APIView):
             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
             'iat': datetime.datetime.utcnow()
         }
-
-        token = jwt.encode(payload, 'secret', algorithm='HS256')
+        secret_key = settings.SECRET_KEY
+        token = jwt.encode(payload, secret_key, algorithm='HS256')
 
         response = Response()
 
