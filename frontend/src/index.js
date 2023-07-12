@@ -4,10 +4,23 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { ThemeProvider } from "@material-tailwind/react";
+import { Provider } from "react-redux";
+import store from "./store/store";
+import { PersistGate } from 'redux-persist/integration/react'
+import { persistStore } from 'redux-persist'
+
+let persistor = persistStore(store);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider>
+      <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+        </PersistGate>
+      </Provider>
+    </ThemeProvider>  
   </React.StrictMode>
 );
 

@@ -1,13 +1,11 @@
-from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
 from rest_framework.response import Response
-from rest_framework.exceptions import AuthenticationFailed
+
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from . import serializers
-from .models import User
-import jwt, datetime
+
 from rest_framework import status
-from django.conf import settings
+
 from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -47,7 +45,13 @@ class UserLoginAPIView(GenericAPIView):
         user = serializer.validated_data
         serializer = serializers.CustomUserSerializer(user)
         token = RefreshToken.for_user(user)
-        data = serializer.data
+        token.payload["name"] = user.name
+        token.payload["email"] = user.email
+        token.payload["is_staff"] = user.is_staff
+        token.payload["is_superuser"] = user.is_superuser
+        token.payload["last_login"] = user.last_login
+        
+        data = dict()
         data["tokens"] = {"refresh": str(token), "access": str(token.access_token)}
         return Response(data, status=status.HTTP_200_OK)
 
@@ -62,8 +66,9 @@ class UserLogoutAPIView(GenericAPIView):
         
         try:
             refresh_token = request.data["refresh"]
-            token = RefreshToken(refresh_token)
-            token.blacklist()
+            RefreshToken(refresh_token).blacklist()
+            
+            
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
