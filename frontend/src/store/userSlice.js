@@ -5,8 +5,6 @@ const initialState = {
     user_id: 0,
     email: "",
     isLogin: false,
-    access: "",
-    refresh: "",
   },
 };
 const userSlice = createSlice({
@@ -14,13 +12,11 @@ const userSlice = createSlice({
   initialState: initialState,
   reducers: {
     setLogin(state, action) {
-      const { uname, user_id, email,access,refresh} = action.payload;
+      const { uname, user_id, email} = action.payload;
       state.profile = {
         uname,
         user_id,
         email,
-        access,
-        refresh,
         isLogin: true,
       };
     },

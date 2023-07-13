@@ -16,7 +16,6 @@ export const Login = () => {
     
     const PasswordValue = PasswordRef.current.value;
     const EmailValue = emailRef.current.value;
-    console.log(PasswordValue,EmailValue);
     
 
     let data = JSON.stringify({
@@ -43,8 +42,9 @@ export const Login = () => {
      const email=userdata["email"];
      const access=response.data["tokens"]["access"];
      const refresh=response.data["tokens"]["refresh"];
-     console.log(uname);
-      dispatch(setLogin({uname, user_id, email,access, refresh}));
+     sessionStorage.setItem("access", access);
+     sessionStorage.setItem("refresh", refresh);
+    dispatch(setLogin({uname, user_id, email}));
     })
     .catch((error) => {
       console.log(error);

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from .models import User
-
+from django.utils import timezone
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -30,12 +30,14 @@ class UserLoginSerializer(serializers.Serializer):
     """
     Serializer class to authenticate users with email and password.
     """
-
+    
     email = serializers.CharField()
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):
         user = authenticate(**data)
         if user and user.is_active:
+            user.last_login = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
+            user.save()
             return user
         raise serializers.ValidationError("Incorrect Credentials")
