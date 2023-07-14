@@ -3,14 +3,14 @@ import axios from "axios"
 import { useDispatch } from "react-redux";
 import React, { useRef } from "react";
 import jwt from 'jwt-decode'
-
+import { useNavigate } from "react-router-dom";
 import { setLogin } from "../store/userSlice";
 // Define the Login function.
 export const Login = () => {
   const dispatch = useDispatch();
   const emailRef = useRef();
   const PasswordRef = useRef();
- 
+  const navigate = useNavigate();
   const handleLogin = (e) => {
     e.preventDefault();
     
@@ -44,15 +44,14 @@ export const Login = () => {
      const refresh=response.data["tokens"]["refresh"];
      sessionStorage.setItem("access", access);
      sessionStorage.setItem("refresh", refresh);
-    dispatch(setLogin({uname, user_id, email}));
+     dispatch(setLogin({uname, user_id, email}));
+     navigate("/home");
     })
     .catch((error) => {
       console.log(error);
     });
     
 
-     
-   // dispatch(setLogin({uname, age, email,accesstoken, refreshtoken }));
   };
     return(
       <section class="bg-gray-50 dark:bg-gray-900">

@@ -9,9 +9,9 @@ import {
 } from "@material-tailwind/react";
 import axios from "axios"
 import { setLogout } from "../store/userSlice";
-import store from "../store/store";
-import { persistStore } from 'redux-persist'
+
 import { useCallback, useRef } from "react";
+
 
 export const Navigation=() =>{
   const [openNav, setOpenNav] = useState(false);
@@ -46,6 +46,7 @@ export const Navigation=() =>{
       })
       .catch((error) => {
         console.log(error);
+
       });
 
 
@@ -113,7 +114,7 @@ export const Navigation=() =>{
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
+        <a href="/about" className="flex items-center">
           About
         </a>
       </Typography>
@@ -123,11 +124,21 @@ export const Navigation=() =>{
         color="blue-gray"
         className="p-1 font-normal"
       >
-        <a href="#" className="flex items-center">
+        <a href="/experience" className="flex items-center">
           Experience
         </a>
       </Typography>
       <Typography
+        as="li"
+        variant="small"
+        color="blue-gray"
+        className="p-1 font-normal"
+      >
+        <a href="/map" className="flex items-center">
+          Map
+        </a>
+      </Typography>
+      {/* <Typography
         as="li"
         variant="small"
         color="blue-gray"
@@ -156,7 +167,7 @@ export const Navigation=() =>{
         <a href="#" className="flex items-center">
           Booking
         </a>
-      </Typography>
+      </Typography> */}
     </ul>
   );
  
@@ -168,7 +179,10 @@ export const Navigation=() =>{
           href="#"
           className="mr-4 cursor-pointer py-1.5 font-medium"
         >
-          Material Tailwind
+          <a href="/home" className="flex items-center">
+             My Map
+          </a>
+         
         </Typography>
         <div className="hidden lg:block">{navList}</div>
         <span className="w-96 text-end hidden lg:inline-block mr-5">
