@@ -8,7 +8,7 @@ const Map = () => {
 const map = useRef(null);
 const [lng, setLng] = useState(115.857048);
 const [lat, setLat] = useState(-31.953512);
-const [zoom, setZoom] = useState(9);
+const [zoom, setZoom] = useState(12);
 useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -18,8 +18,19 @@ useEffect(() => {
     zoom: zoom
     });
     });
+useEffect(() => {
+        if (!map.current) return; // wait for map to initialize
+        map.current.on('move', () => {
+        setLng(map.current.getCenter().lng.toFixed(4));
+        setLat(map.current.getCenter().lat.toFixed(4));
+        setZoom(map.current.getZoom().toFixed(2));
+        });
+        });
+    
   return (
-    <div className=" mt-5 ml-10 mr-10 text-center">
+    
+    <div className="mt-5 ml-10 mr-10 text-center">
+        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
         <div ref={mapContainer} className=" h-[80vh] mb-10 map-container "></div> 
     </div>
   )

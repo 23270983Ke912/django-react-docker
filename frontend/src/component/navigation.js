@@ -64,7 +64,6 @@ export const Navigation=() =>{
 
   const handleLogOut = (e) => {
     e.preventDefault();
-    //dispatch(setLogout());
     const refresh=sessionStorage.getItem("refresh");
     const access=sessionStorage.getItem("access");
     console.log(refresh);
