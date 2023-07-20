@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from glob import glob
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -41,6 +42,10 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     'rest_framework',
     'user_auth',
+    'mapgis',
+    
+    #
+    'django.contrib.gis',
 ]
 
 MIDDLEWARE = [
@@ -84,8 +89,8 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'postgresgis',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'db',
@@ -172,3 +177,6 @@ SIMPLE_JWT = {
 }
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+GDAL_LIBRARY_PATH=glob('/usr/lib/libgdal.so.*')[0]
+GEOS_LIBRARY_PATH=glob('/usr/lib/libgeos_c.so.*')[0]

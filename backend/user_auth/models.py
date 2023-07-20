@@ -11,6 +11,7 @@ class User(AbstractUser):
     name = models.CharField(max_length=255,validators=[validate_name])
     email = models.EmailField(_("email address"), unique=True, validators=[validate_email])
     password = models.CharField(max_length=255)
+    
     username = None
 
     USERNAME_FIELD = "email"
