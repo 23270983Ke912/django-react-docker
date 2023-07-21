@@ -13,7 +13,7 @@ from django.contrib.gis.db import models as gismodels
     shape_leng double precision,
     shape_area double precision,
     wkb_geometry geometry(Geometry,7844), """
-class Surburbs(models.Model):
+class Suburbs(models.Model):
     ogc_fid = models.AutoField(primary_key=True)  # Adding the missing field
     sal_code21 = models.CharField(max_length=255,null=True)
     sal_name21 = models.CharField(max_length=255,null=True)  # Adding the missing field

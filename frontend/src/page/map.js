@@ -1,6 +1,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+
 mapboxgl.accessToken = 'pk.eyJ1Ijoia2U5MTIiLCJhIjoiY2xrMjY2MXJ3MDAzZTNkb2ZiODFzczh2OSJ9.V4-_AIL7TrQolSiQYDZudw';
 
 const Map = () => {
@@ -17,7 +18,34 @@ useEffect(() => {
     center: [lng, lat],
     zoom: zoom
     });
+    map.current.on('style.load', () => {
+      map.current.setFog({}); // Set the default atmosphere style
+      });
+       
+      map.current.on('load', () => {
+      map.current.addSource('subrubs', {
+      type: 'geojson',
+      // Use a URL for the value for the `data` property.
+      data: '/data/map.geojson'
+      });
+       
+      map.current.addLayer({
+      'id': 'subrubs-layer',
+      'type': 'line',
+      'source': 'subrubs',
+      "paint": {
+        'line-color': '#355e92',
+        'line-width': 3
+        
+      }
+      });
     });
+
+
+  });
+
+
+    
 useEffect(() => {
         if (!map.current) return; // wait for map to initialize
         map.current.on('move', () => {
@@ -25,6 +53,7 @@ useEffect(() => {
         setLat(map.current.getCenter().lat.toFixed(4));
         setZoom(map.current.getZoom().toFixed(2));
         });
+        
         });
     
   return (
