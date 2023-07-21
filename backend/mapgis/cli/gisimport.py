@@ -1,6 +1,6 @@
 # CLI:
 # cd /var/lib/postgresql/data/
-# ogr2ogr -f PostgreSQL PG:"host=localhost dbname=postgresgis user=postgres password=postgres" output.json -nln "mapgis_surburbs" -append
+# ogr2ogr -f PostgreSQL PG:"host=localhost dbname=postgresgis user=postgres password=postgres" output2.geojson -nln "mapgis_suburbs" -append
 
 import subprocess
 
