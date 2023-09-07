@@ -53,7 +53,7 @@ async function updateDevicePosition () {
 useEffect(() => {
   if (!isMounted) {
      //updateDevicePosition()
-     //setIsMounted(false)
+     //setIsMounted(true)
   }
 })
 
@@ -86,6 +86,7 @@ const [socketUrl, setSocketUrl] = useState('ws://127.0.0.1:8000/ws/socket-server
   return (
     
     <section class="m-200">
+      <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
          <div>
     
       <h1>WebSocket Test</h1>
@@ -158,6 +159,7 @@ const [socketUrl, setSocketUrl] = useState('ws://127.0.0.1:8000/ws/socket-server
     <tbody>
     <tr><td>Stirling Highway, Nedlands</td><td><button type="button" href="https://www.google.com/maps/place/Stirling+Hwy,+Nedlands+WA+6009,+Australia/@-31.9649936,115.8174563,17z/data=!3m1!4b1!4m5!3m4!1s0x2a32b3d9f2f1f9f3:0x9f3f9c3a3f9f7d2a!8m2!3d-31.9649936!4d115.819645" target="_blank">link</button></td></tr><tr><td>Broadway and Stirling Highway</td><td><button href="https://www.google.com/maps/place/Broadway+St+%26+Stirling+Hwy,+Nedlands+WA+6009,+Australia/@-31.9650013,115.8174563,17z/data=!3m1!4b1!4m5!3m4!1s0x2a32b3d9f2f1f9f3:0x9f3f9c3a3f9f7d2a!8m2!3d-31.9650013!4d115.819645" target="_blank">link</button></td></tr> </tbody>
       </table>
+      </div>
       </div>
       </div>
       </div>
