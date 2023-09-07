@@ -1,4 +1,56 @@
 
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.ui-container { 
+  position: absolute;
+  z-index: 100;
+  border-right: 1px solid darkgray;
+  border-bottom: 1px solid darkgray;
+  padding: .5rem;
+  background: lightgray;
+}
+
+.ui-row {
+  /* border: 1px solid red; */
+  padding-top: .4rem;
+}
+
+.points-counties-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.points-counties-row div {
+  margin-right: .5rem;
+}
+
+/* .csvUrl-input {
+  max-width: 5rem;
+  margin-right: .25rem;
+} */
+
+.btn-query {
+  margin-right: .25rem;
+}
+
+.popup {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.popupHeader {
+  font-weight: bold;
+}
+/* .popup li {
+  border: 1px solid black;
+} */
+.popupHeader {
+  font-weight: bold;
+}
   @tailwind base;
 @tailwind components;
 @tailwind utilities;

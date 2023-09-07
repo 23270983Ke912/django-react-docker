@@ -5,7 +5,7 @@ const Navbarfilter = ({children}) => {
     const location = useLocation()
     const [shownavbar, setShownavbar] = useState(false)
     useEffect(() => {
-        if(location.pathname === '/' || location.pathname === '/login' || location.pathname === '/register'){
+        if(location.pathname === '/' || location.pathname === '/login' || location.pathname === '/register'|| location.pathname === '/sharetable'|| location.pathname === '/sharetable/'){
             setShownavbar(false)
         }else{
             setShownavbar(true)

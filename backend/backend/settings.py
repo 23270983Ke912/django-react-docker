@@ -26,12 +26,13 @@ SECRET_KEY = 'django-insecure-a0&3)jh@s)7@%9u@l_(h!yq-$es-!5c#-vlai-30thw^e8er%5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost","127.0.0.1", "192.168.50.163"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    "channels",
     'corsheaders', 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,14 +40,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     "rest_framework_simplejwt.token_blacklist",
     'rest_framework',
     'user_auth',
     'mapgis',
-    
-    #
+    'cc',
+
+
     'django.contrib.gis',
 ]
+
+ASGI_APPLICATION = "backend.asgi.application"
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",

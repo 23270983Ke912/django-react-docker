@@ -1,5 +1,5 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-
+import './index.css';
 import {Navigation} from './component/navigation';
 import Experience from "./page/experience.js";
 import Map from './page/map';
@@ -7,6 +7,7 @@ import Register from "./page/register";
 import Login from "./page/login";
 import Home from "./page/home";
 import About from './page/about';
+import Sharetable from './page/sharetable';
 import { useSelector } from "react-redux";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 
@@ -19,6 +20,8 @@ function App() {
     </Navbarfilter>
         
         <Routes>
+
+          <Route path="/sharetable" element={<Sharetable/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/" element={<Login/>}/>
           <Route path="/login" element={<Login/>}/>

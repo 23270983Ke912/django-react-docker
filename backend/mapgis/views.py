@@ -9,7 +9,7 @@ from rest_framework import status
 
 from rest_framework.generics import GenericAPIView
 
-from .models import Suburbs
+from .models import Suburbs, SuburbData
 
 class GisAPIView(GenericAPIView):
     """
@@ -17,17 +17,17 @@ class GisAPIView(GenericAPIView):
     """
 
     permission_classes = (IsAuthenticated,)
-    serializer_class = serializers.SuburbGISSerializer
+    serializer_class = serializers.SuburbDataSerializer
 
  
     def get_queryset(self):
         # This method should return the queryset (list of objects) you want to retrieve.
         # For example, to retrieve all suburbs:
-        return Suburbs.objects.all().first()
+        return SuburbData.objects.all()
 
     def get(self, request, *args, **kwargs):
         # Handle the GET request here.
-        suburbs = self.get_queryset()
-        serializer = self.serializer_class(suburbs)  # Use many=True here
+        suburbData = self.get_queryset()
+        serializer = self.serializer_class(suburbData, many=True)  # Use many=True here
    
         return Response(serializer.data, status=status.HTTP_200_OK)
