@@ -16,8 +16,6 @@ RUN apk add --virtual .build-deps \
     && pip install --no-cache-dir -r requirements.txt \
     && apk --purge del .build-deps
 
-COPY ./entrypoint.sh /entrypoint/entrypoint.sh
-RUN chmod +x /entrypoint/entrypoint.sh
 
 COPY . /app/backend/
 
