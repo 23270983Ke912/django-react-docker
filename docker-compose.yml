@@ -52,10 +52,12 @@ services:
       - '3000:3000'
     volumes:
       - ./frontend:/app/frontend
-      - ./frontend/node_modules:/app/frontend/node_modules
+      - node_modules:/app/frontend/node_modules
 
     depends_on:
       - backend
-   
+volumes:
+  node_modules:
+    driver: local
 
  
